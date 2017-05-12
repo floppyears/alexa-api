@@ -2,6 +2,7 @@ package edu.oregonstate.mist.alexa.db
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.sun.org.apache.xpath.internal.operations.Bool
 import org.apache.http.HttpEntity
 import org.apache.http.HttpResponse
 import org.apache.http.client.HttpClient
@@ -30,7 +31,7 @@ class Requests {
      * @param url
      * @return
      */
-    def get(String url) {
+    def get(String url, Boolean debug = false) {
         def accessToken = getAccessToken()
 
         HttpGet request = new HttpGet(url)
@@ -42,7 +43,9 @@ class Requests {
         HttpEntity entity = response.getEntity()
 
         def entityString = EntityUtils.toString(entity)
-        println entityString
+        if (debug) {
+            println "DEBUG: " + entityString
+        }
 
         def data = this.mapper.readValue(entityString,
                 new TypeReference<HashMap<String, Object>>() {
