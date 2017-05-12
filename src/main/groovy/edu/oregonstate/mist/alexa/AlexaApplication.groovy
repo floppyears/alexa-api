@@ -7,7 +7,7 @@ import io.dropwizard.setup.Environment
 /**
  * Main application class.
  */
-class AlexaApplication extends Application<Configuration> {
+class AlexaApplication extends Application<AlexaConfiguration> {
     /**
      * Parses command-line arguments and runs the application.
      *
@@ -15,8 +15,10 @@ class AlexaApplication extends Application<Configuration> {
      * @param environment
      */
     @Override
-    public void run(Configuration configuration, Environment environment) {
+    public void run(AlexaConfiguration configuration, Environment environment) {
         this.setup(configuration, environment)
+
+        environment.jersey().register(new AlexaResource())
     }
 
     /**
