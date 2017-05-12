@@ -36,12 +36,19 @@ class AlexaResource extends Resource {
     @Consumes(MediaType.APPLICATION_JSON)
     AlexaResponse bennySkill(def alexaRequest) {
         String intent = alexaRequest["request"]["intent"]["name"].toString()
+        def slots = alexaRequest["request"]["intent"]["slots"]
         String responseSpeech = "I don't know what your intent was."
 
         switch (intent) {
             case "HelloWorld": responseSpeech = "Hello hackathon 2017!"
                 break
             case "Terms": responseSpeech = termsDAO.getOpenTerms()
+                break
+            case "Directory": responseSpeech = directoryDAO.getInfo(slots)
+                break
+            case "Restaurants": responseSpeech = locationsDAO.getOpenRestaurants()
+                break
+            case "IsOpen": responseSpeech = locationsDAO.openHoursForLocation(slots)
                 break
             case "Nearby": responseSpeech = locationsDAO.getNearbyRestaurants(1.0)
                 //withinDistance parameter expects miles.
@@ -57,20 +64,4 @@ class AlexaResource extends Resource {
                 )
         )
     }
-
-    @Timed
-    @POST
-    @Path("world")
-    AlexaResponse world() {
-        println "resource: " + directoryDAO.getInfo("vanvliet", "officePhoneNumber")
-        new AlexaResponse(
-                response: new Response(
-                        outputSpeech: new OutputSpeech(
-                                type: "PlainText",
-                                text: "Hello hackathon 2017!"
-                        )
-                )
-        )
-    }
-
 }
