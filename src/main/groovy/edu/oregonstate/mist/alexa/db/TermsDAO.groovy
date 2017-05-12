@@ -9,7 +9,8 @@ class TermsDAO {
 
     TermsDAO(HttpClient httpClient, Map<String, String> alexaConfiguration) {
         this.alexaConfiguration = alexaConfiguration
-        requests = new Requests(httpClient, alexaConfiguration['oauth2Url'].toString())
+        requests = new Requests(httpClient, alexaConfiguration['oauth2Url'].toString(),
+                alexaConfiguration['oauth2Params'].toString())
     }
 
     void ping() {

@@ -51,6 +51,7 @@ apis:
   locationsUrl: https://example.com/locations
   termsUrl: https://example.com/terms
   oauth2Url: https://example.com/oauth2/token
+  oauth2Params: SECRET
 
 httpClientConfiguration:
  timeout: 150000ms
