@@ -1,6 +1,5 @@
 package edu.oregonstate.mist.alexa.db
 
-import com.fasterxml.jackson.core.type.TypeReference
 import groovy.transform.InheritConstructors
 
 @InheritConstructors
