@@ -3,6 +3,9 @@ package edu.oregonstate.mist.alexa.db
 import groovy.transform.InheritConstructors
 
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 @InheritConstructors
 class LocationsDAO extends ApiDAO {
@@ -69,6 +72,17 @@ class LocationsDAO extends ApiDAO {
         }
 
         //@todo: convert hours to human values!
-        "${locationQuery} is open today from ${todayHours[0]['start']} to ${todayHours[0]['end']}."
+        def start = getHumanTime(todayHours[0]['start'].toString())
+        def end = getHumanTime(todayHours[0]['end'].toString())
+        "${locationQuery} is open today from ${ start} to ${end}."
+    }
+
+    static String getHumanTime(String datetime) {
+        ZonedDateTime result = ZonedDateTime.parse(datetime, DateTimeFormatter.ISO_DATE_TIME)
+        LocalDateTime localDateTime = result.toLocalDateTime()
+        println "localDate: " + localDateTime
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm")
+        localDateTime.format(formatter)
     }
 }
