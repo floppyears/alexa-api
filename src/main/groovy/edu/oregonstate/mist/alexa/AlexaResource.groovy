@@ -48,6 +48,8 @@ class AlexaResource extends Resource {
                 break
             case "Restaurants": responseSpeech = locationsDAO.getOpenRestaurants()
                 break
+            case "IsOpen": responseSpeech = locationsDAO.openHoursForLocation(slots)
+                break
         }
 
         new AlexaResponse(

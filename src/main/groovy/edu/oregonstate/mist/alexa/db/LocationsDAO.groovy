@@ -39,12 +39,16 @@ class LocationsDAO extends ApiDAO {
      * @param locationQuery
      * @return
      */
-    String openHoursForLocation(String locationQuery) {
+    String openHoursForLocation(def slots) {
+        String query = slots["location"]["value"].toString()
+        String queryEncoded = URLEncoder.encode(query, "UTF-8")
+        String locationQuery = query
+
         def notOpenToday = "Sorry, ${locationQuery} is not open today."
         def couldntFindIt = "Sorry, I couldn't find: ${locationQuery}"
 
         def urlPrefix = alexaConfiguration['locationsUrl'].toString()
-        String url = urlPrefix + "?q=" + locationQuery
+        String url = urlPrefix + "?q=" + queryEncoded
         def jsonApiObject = requests.get(url)
 
         // check if it's NO_RESULTS a 404 or empty body
