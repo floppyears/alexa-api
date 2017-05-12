@@ -25,6 +25,20 @@ class AlexaResource extends Resource {
         this.termsDAO = termsDAO
     }
 
+    @POST
+    @Path("terms/open")
+    AlexaResponse openTerms() {
+        def openTerms = termsDAO.getOpenTerms()
+        new  AlexaResponse(
+                response: new Response(
+                        outputSpeech: new OutputSpeech(
+                                type: "PlainText",
+                                text: openTerms
+                        )
+                )
+        )
+    }
+
     @Timed
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
