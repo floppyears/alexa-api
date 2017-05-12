@@ -1,18 +1,9 @@
 package edu.oregonstate.mist.alexa.db
 
-import org.apache.http.client.HttpClient
+import groovy.transform.InheritConstructors
 
-class TermsDAO {
-    Map<String, String> alexaConfiguration
-
-    Requests requests
-
-    TermsDAO(HttpClient httpClient, Map<String, String> alexaConfiguration) {
-        this.alexaConfiguration = alexaConfiguration
-        requests = new Requests(httpClient, alexaConfiguration['oauth2Url'].toString(),
-                alexaConfiguration['oauth2Params'].toString())
-    }
-
+@InheritConstructors
+class TermsDAO extends ApiDAO {
     void ping() {
         println "pong"
         println requests.get(alexaConfiguration['termsUrl'].toString())
