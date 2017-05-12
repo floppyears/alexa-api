@@ -9,6 +9,7 @@ import edu.oregonstate.mist.alexa.db.TermsDAO
 import edu.oregonstate.mist.api.Resource
 
 import javax.annotation.security.PermitAll
+import javax.ws.rs.Consumes
 import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
@@ -29,13 +30,23 @@ class AlexaResource extends Resource {
 
     @Timed
     @POST
-    @Path("hello")
-    AlexaResponse hello() {
+    @Consumes(MediaType.APPLICATION_JSON)
+    AlexaResponse bennySkill(def alexaRequest) {
+        String intent = alexaRequest["request"]["intent"]["name"].toString()
+        String responseSpeech = "I don't know what your intent was."
+
+        switch (intent) {
+            case "HelloWorld": responseSpeech = "Hello hackathon 2017!"
+                break
+            case "Terms": responseSpeech = "I will tell you terms when we implement it."
+                break
+        }
+
         new AlexaResponse(
                 response: new Response(
                         outputSpeech: new OutputSpeech(
                                 type: "PlainText",
-                                text: "Hello hackathon 2017!"
+                                text: responseSpeech
                         )
                 )
         )
