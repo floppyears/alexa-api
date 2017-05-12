@@ -21,7 +21,7 @@ class Requests {
         "benny is alive!"
     }
 
-    String getAccessToken() {
+    private String getAccessToken() {
         CloseableHttpResponse response
 
         def data = new HashMap<>()

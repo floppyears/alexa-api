@@ -14,7 +14,6 @@ class TermsDAO {
 
     void ping() {
         println "pong"
-        println requests.getAccessToken()
         println requests.get(alexaConfiguration['termsUrl'].toString())
     }
 }
