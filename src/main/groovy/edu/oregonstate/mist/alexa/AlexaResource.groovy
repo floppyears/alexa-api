@@ -43,6 +43,9 @@ class AlexaResource extends Resource {
                 break
             case "Terms": responseSpeech = termsDAO.getOpenTerms()
                 break
+            case "Nearby": responseSpeech = locationsDAO.getNearbyRestaurants(1.0)
+                //withinDistance parameter expects miles.
+                break
         }
 
         new AlexaResponse(
