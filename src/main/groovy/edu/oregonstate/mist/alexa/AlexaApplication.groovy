@@ -1,8 +1,10 @@
 package edu.oregonstate.mist.alexa
 
+import edu.oregonstate.mist.alexa.db.TermsDAO
 import edu.oregonstate.mist.api.Application
-import edu.oregonstate.mist.api.Configuration
+import io.dropwizard.client.HttpClientBuilder
 import io.dropwizard.setup.Environment
+import org.apache.http.client.HttpClient
 
 /**
  * Main application class.
@@ -18,7 +20,13 @@ class AlexaApplication extends Application<AlexaConfiguration> {
     public void run(AlexaConfiguration configuration, Environment environment) {
         this.setup(configuration, environment)
 
-        environment.jersey().register(new AlexaResource())
+        HttpClient httpClient = new HttpClientBuilder(environment)
+                .using(configuration.getHttpClientConfiguration())
+                .build("backend-http-client")
+
+        TermsDAO termsDAO = new TermsDAO(httpClient, configuration.alexaConfiguration)
+
+        environment.jersey().register(new AlexaResource(termsDAO))
     }
 
     /**

@@ -4,8 +4,8 @@ import com.codahale.metrics.annotation.Timed
 import edu.oregonstate.mist.alexa.core.AlexaResponse
 import edu.oregonstate.mist.alexa.core.OutputSpeech
 import edu.oregonstate.mist.alexa.core.Response
+import edu.oregonstate.mist.alexa.db.TermsDAO
 import edu.oregonstate.mist.api.Resource
-import edu.oregonstate.mist.api.jsonapi.ResultObject
 
 import javax.annotation.security.PermitAll
 import javax.ws.rs.POST
@@ -18,6 +18,11 @@ import javax.ws.rs.core.MediaType
 @PermitAll
 @groovy.transform.TypeChecked
 class AlexaResource extends Resource {
+    TermsDAO termsDAO
+
+    AlexaResource(TermsDAO termsDAO) {
+        this.termsDAO = termsDAO
+    }
 
     @Timed
     @POST
@@ -32,4 +37,20 @@ class AlexaResource extends Resource {
                 )
         )
     }
+
+    @Timed
+    @POST
+    @Path("world")
+    AlexaResponse world() {
+        termsDAO.ping()
+        new AlexaResponse(
+                response: new Response(
+                        outputSpeech: new OutputSpeech(
+                                type: "PlainText",
+                                text: "Hello hackathon 2017!"
+                        )
+                )
+        )
+    }
+
 }
