@@ -45,6 +45,9 @@ class AlexaResource extends Resource {
             case "Terms": responseSpeech = termsDAO.getOpenTerms()
                 break
             case "Directory": responseSpeech = directoryDAO.getInfo(slots)
+                break
+            case "Restaurants": responseSpeech = locationsDAO.getOpenRestaurants()
+                break
         }
 
         new AlexaResponse(
