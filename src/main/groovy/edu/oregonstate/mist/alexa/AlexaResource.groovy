@@ -5,6 +5,7 @@ import edu.oregonstate.mist.alexa.core.AlexaResponse
 import edu.oregonstate.mist.alexa.core.OutputSpeech
 import edu.oregonstate.mist.alexa.core.Response
 import edu.oregonstate.mist.alexa.db.DirectoryDAO
+import edu.oregonstate.mist.alexa.db.LocationsDAO
 import edu.oregonstate.mist.alexa.db.TermsDAO
 import edu.oregonstate.mist.api.Resource
 
@@ -22,10 +23,12 @@ import javax.ws.rs.core.MediaType
 class AlexaResource extends Resource {
     TermsDAO termsDAO
     DirectoryDAO directoryDAO
+    LocationsDAO locationsDAO
 
-    AlexaResource(TermsDAO termsDAO, DirectoryDAO directoryDAO) {
+    AlexaResource(TermsDAO termsDAO, DirectoryDAO directoryDAO, LocationsDAO locationsDAO) {
         this.termsDAO = termsDAO
         this.directoryDAO = directoryDAO
+        this.locationsDAO = locationsDAO
     }
 
     @Timed
@@ -42,6 +45,9 @@ class AlexaResource extends Resource {
             case "Terms": responseSpeech = termsDAO.getOpenTerms()
                 break
             case "Directory": responseSpeech = directoryDAO.getInfo(slots)
+                break
+            case "Restaurants": responseSpeech = locationsDAO.getOpenRestaurants()
+                break
         }
 
         new AlexaResponse(
