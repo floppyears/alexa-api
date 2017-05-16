@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed
 import edu.oregonstate.mist.alexa.core.AlexaResponse
 import edu.oregonstate.mist.alexa.core.OutputSpeech
 import edu.oregonstate.mist.alexa.core.Response
+import edu.oregonstate.mist.alexa.db.CoursesDAO
 import edu.oregonstate.mist.alexa.db.DirectoryDAO
 import edu.oregonstate.mist.alexa.db.LocationsDAO
 import edu.oregonstate.mist.alexa.db.TermsDAO
@@ -24,11 +25,16 @@ class AlexaResource extends Resource {
     TermsDAO termsDAO
     DirectoryDAO directoryDAO
     LocationsDAO locationsDAO
+    CoursesDAO coursesDAO
 
-    AlexaResource(TermsDAO termsDAO, DirectoryDAO directoryDAO, LocationsDAO locationsDAO) {
+    AlexaResource(TermsDAO termsDAO,
+                  DirectoryDAO directoryDAO,
+                  LocationsDAO locationsDAO,
+                  CoursesDAO coursesDAO) {
         this.termsDAO = termsDAO
         this.directoryDAO = directoryDAO
         this.locationsDAO = locationsDAO
+        this.coursesDAO = coursesDAO
     }
 
     @Timed
@@ -38,6 +44,7 @@ class AlexaResource extends Resource {
         String intent = alexaRequest["request"]["intent"]["name"].toString()
         def slots = alexaRequest["request"]["intent"]["slots"]
         String responseSpeech = "I don't know what your intent was."
+        String responseSpeechSsml
 
         switch (intent) {
             case "HelloWorld": responseSpeech = "Hello hackathon 2017!"
@@ -53,13 +60,17 @@ class AlexaResource extends Resource {
             case "Nearby": responseSpeech = locationsDAO.getNearbyRestaurants(1.0)
                 //withinDistance parameter expects miles.
                 break
+            case "PAC": responseSpeech = null
+                responseSpeechSsml = coursesDAO.randomPAC(slots)
+                break
         }
 
         new AlexaResponse(
                 response: new Response(
                         outputSpeech: new OutputSpeech(
                                 type: "PlainText",
-                                text: responseSpeech
+                                text: responseSpeech,
+                                ssml: responseSpeechSsml
                         )
                 )
         )
