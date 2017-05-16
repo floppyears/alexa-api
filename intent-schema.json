@@ -1,0 +1,310 @@
+{
+  "intents": [
+    {
+      "name": "AMAZON.CancelIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.HelpIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.PauseIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.ResumeIntent",
+      "samples": []
+    },
+    {
+      "name": "AMAZON.StopIntent",
+      "samples": []
+    },
+    {
+      "name": "Directory",
+      "samples": [
+        "what is the {field} for {query} "
+      ],
+      "slots": [
+        {
+          "name": "query",
+          "type": "AMAZON.Person",
+          "samples": [
+            "{query} "
+          ]
+        },
+        {
+          "name": "field",
+          "type": "attributes",
+          "samples": [
+            "{field}"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "HelloWorld",
+      "samples": [
+        "hello",
+        "hi"
+      ],
+      "slots": []
+    },
+    {
+      "name": "IsOpen",
+      "samples": [
+        "is {location} open right now",
+        "is {location} open today"
+      ],
+      "slots": [
+        {
+          "name": "location",
+          "type": "AMAZON.LocalBusiness",
+          "samples": [
+            "{location} "
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Nearby",
+      "samples": [
+        "what restaurants are nearby",
+        "what food is close to me",
+        "what food is nearby",
+        "what restaurants are close to me"
+      ],
+      "slots": []
+    },
+    {
+      "name": "PAC",
+      "samples": [
+        "are there any open pack classes that occur at {time} on {dayofweek} for {term} {year}"
+      ],
+      "slots": [
+        {
+          "name": "time",
+          "type": "AMAZON.TIME",
+          "samples": []
+        },
+        {
+          "name": "dayofweek",
+          "type": "AMAZON.DayOfWeek",
+          "samples": []
+        },
+        {
+          "name": "term",
+          "type": "terms",
+          "samples": []
+        },
+        {
+          "name": "year",
+          "type": "AMAZON.FOUR_DIGIT_NUMBER",
+          "samples": []
+        }
+      ]
+    },
+    {
+      "name": "Restaurants",
+      "samples": [
+        "what should I eat",
+        "where can I eat on campus",
+        "where should I eat on campus",
+        "what food places are open"
+      ],
+      "slots": []
+    },
+    {
+      "name": "Terms",
+      "samples": [
+        "what terms are open",
+        "what terms can I register for",
+        "what class terms can I register for",
+        "what class terms are open"
+      ],
+      "slots": []
+    }
+  ],
+  "types": [
+    {
+      "name": "attributes",
+      "values": [
+        {
+          "name": {
+            "value": "phone number"
+          }
+        },
+        {
+          "name": {
+            "value": "email"
+          }
+        }
+      ]
+    },
+    {
+      "name": "terms",
+      "values": [
+        {
+          "name": {
+            "value": "spring"
+          }
+        },
+        {
+          "name": {
+            "value": "summer"
+          }
+        },
+        {
+          "name": {
+            "value": "fall"
+          }
+        },
+        {
+          "name": {
+            "value": "winter"
+          }
+        }
+      ]
+    }
+  ],
+  "prompts": [
+    {
+      "id": "Elicit.Intent-Directory.IntentSlot-query",
+      "promptVersion": "1.0",
+      "definitionVersion": "1.0",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "what is the name of the person"
+        }
+      ]
+    },
+    {
+      "id": "Elicit.Intent-Directory.IntentSlot-field",
+      "promptVersion": "1.0",
+      "definitionVersion": "1.0",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "what field do you want to search"
+        }
+      ]
+    },
+    {
+      "id": "Elicit.Intent-IsOpen.IntentSlot-location",
+      "promptVersion": "1.0",
+      "definitionVersion": "1.0",
+      "variations": [
+        {
+          "type": "PlainText",
+          "value": "what is the location"
+        }
+      ]
+    }
+  ],
+  "dialog": {
+    "version": "1.0",
+    "intents": [
+      {
+        "name": "Directory",
+        "confirmationRequired": false,
+        "prompts": {},
+        "slots": [
+          {
+            "name": "query",
+            "type": "AMAZON.Person",
+            "elicitationRequired": true,
+            "confirmationRequired": false,
+            "prompts": {
+              "elicit": "Elicit.Intent-Directory.IntentSlot-query"
+            }
+          },
+          {
+            "name": "field",
+            "type": "attributes",
+            "elicitationRequired": true,
+            "confirmationRequired": false,
+            "prompts": {
+              "elicit": "Elicit.Intent-Directory.IntentSlot-field"
+            }
+          }
+        ]
+      },
+      {
+        "name": "HelloWorld",
+        "confirmationRequired": false,
+        "prompts": {},
+        "slots": []
+      },
+      {
+        "name": "IsOpen",
+        "confirmationRequired": false,
+        "prompts": {},
+        "slots": [
+          {
+            "name": "location",
+            "type": "AMAZON.LocalBusiness",
+            "elicitationRequired": true,
+            "confirmationRequired": false,
+            "prompts": {
+              "elicit": "Elicit.Intent-IsOpen.IntentSlot-location"
+            }
+          }
+        ]
+      },
+      {
+        "name": "Nearby",
+        "confirmationRequired": false,
+        "prompts": {},
+        "slots": []
+      },
+      {
+        "name": "PAC",
+        "confirmationRequired": false,
+        "prompts": {},
+        "slots": [
+          {
+            "name": "time",
+            "type": "AMAZON.TIME",
+            "elicitationRequired": false,
+            "confirmationRequired": false,
+            "prompts": {}
+          },
+          {
+            "name": "dayofweek",
+            "type": "AMAZON.DayOfWeek",
+            "elicitationRequired": false,
+            "confirmationRequired": false,
+            "prompts": {}
+          },
+          {
+            "name": "term",
+            "type": "terms",
+            "elicitationRequired": false,
+            "confirmationRequired": false,
+            "prompts": {}
+          },
+          {
+            "name": "year",
+            "type": "AMAZON.FOUR_DIGIT_NUMBER",
+            "elicitationRequired": false,
+            "confirmationRequired": false,
+            "prompts": {}
+          }
+        ]
+      },
+      {
+        "name": "Restaurants",
+        "confirmationRequired": false,
+        "prompts": {},
+        "slots": []
+      },
+      {
+        "name": "Terms",
+        "confirmationRequired": false,
+        "prompts": {},
+        "slots": []
+      }
+    ]
+  }
+}
