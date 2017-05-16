@@ -9,6 +9,13 @@ import java.time.format.DateTimeFormatter
 class CoursesDAO extends ApiDAO {
     private final String bannerTimePattern = "HHmm"
 
+    /**
+     * Get term code from a year and season.
+     * Term code is used in URI of catalog API request.
+     * @param year
+     * @param season
+     * @return
+     */
     private String getTermCode (int year, String season) {
         String termCode
         switch (season) {
@@ -24,11 +31,24 @@ class CoursesDAO extends ApiDAO {
         termCode
     }
 
+    /**
+     * Get a LocalTime object from a time string and pattern string.
+     * @param inputTime
+     * @param pattern
+     * @return
+     */
     private LocalTime parseTime (String inputTime, String pattern) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern)
         LocalTime.parse(inputTime, formatter)
     }
 
+    /**
+     * Check if a time occurs within two times.
+     * @param desiredTime
+     * @param lowerLimit
+     * @param upperLimit
+     * @return
+     */
     private Boolean withinTimeFrame (LocalTime desiredTime,
                                      LocalTime lowerLimit,
                                      LocalTime upperLimit) {
@@ -42,6 +62,13 @@ class CoursesDAO extends ApiDAO {
         isWithinTimeFrame
     }
 
+    /**
+     * Returns a list of class json objects that satisfy schedule criteria.
+     * @param jsonApiResponse
+     * @param desiredTime
+     * @param dayOfWeek
+     * @return
+     */
     private def getPossibleClasses (def jsonApiResponse,
                                     LocalTime desiredTime,
                                     String dayOfWeek) {
@@ -73,12 +100,22 @@ class CoursesDAO extends ApiDAO {
         possibleClasses
     }
 
+    /**
+     * Format time so alexa reads the time correctly.
+     * @param inputTimeString
+     * @return
+     */
     String formatTimeForResponse (String inputTimeString) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mma")
         LocalTime inputTime = parseTime(inputTimeString, bannerTimePattern)
         inputTime.format(formatter)
     }
 
+    /**
+     * Returns an alexa response phrase for the days that a class meets
+     * @param course
+     * @return
+     */
     String getDayScheduleResponse (def course) {
         def daysOfTheWeek = [
                 "monday",
@@ -101,6 +138,11 @@ class CoursesDAO extends ApiDAO {
         "It meets " + joinList(classDays)
     }
 
+    /**
+     * Generates a response that will be spoken by alexa.
+     * @param course
+     * @return
+     */
     String generateResponse (def course) {
         Integer availableSpaces = course["attributes"]["maximumEnrollment"] -
                 course["attributes"]["enrollment"]
@@ -131,6 +173,11 @@ class CoursesDAO extends ApiDAO {
         response
     }
 
+    /**
+     * Makes call to catalog API and calls functions to manipulate response.
+     * @param slots
+     * @return
+     */
     String randomPAC (def slots) {
         String requestUrl = alexaConfiguration['catalogUrl'].toString()
         String termCode = getTermCode(slots["year"]["value"] as int,
