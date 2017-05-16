@@ -45,6 +45,7 @@ class AlexaResource extends Resource {
         def slots = alexaRequest["request"]["intent"]["slots"]
         String responseSpeech = "I don't know what your intent was."
         String responseSpeechSsml
+        String responseType = "PlainText"
 
         switch (intent) {
             case "HelloWorld": responseSpeech = "Hello hackathon 2017!"
@@ -62,13 +63,14 @@ class AlexaResource extends Resource {
                 break
             case "PAC": responseSpeech = null
                 responseSpeechSsml = coursesDAO.randomPAC(slots)
+                responseType = "SSML"
                 break
         }
 
         new AlexaResponse(
                 response: new Response(
                         outputSpeech: new OutputSpeech(
-                                type: "PlainText",
+                                type: responseType,
                                 text: responseSpeech,
                                 ssml: responseSpeechSsml
                         )

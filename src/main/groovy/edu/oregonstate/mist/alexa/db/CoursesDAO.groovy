@@ -91,6 +91,7 @@ class CoursesDAO extends ApiDAO {
         ]
         def classDays = []
 
+        // TODO: handle classes that have multiple meeting times
         daysOfTheWeek.each {
             if (course["attributes"]["meetingTimes"][0][it]) {
                 classDays.add(it)
@@ -112,6 +113,7 @@ class CoursesDAO extends ApiDAO {
         }
         availableSpacesResponse += "left to register for. "
 
+        // TODO: handle classes that have multiple meeting times
         String startTime = formatTimeForResponse(
                 course["attributes"]["meetingTimes"][0]["startTime"].toString())
         String endTime = formatTimeForResponse(
@@ -120,6 +122,7 @@ class CoursesDAO extends ApiDAO {
 
         String scheduleResponse = getDayScheduleResponse(course) + " from " + timeSchedule
 
+        // TODO: handle class names that contain roman numerals
         String response = "Does ${course["attributes"]["courseTitle"]} sound like fun? " +
                 availableSpacesResponse +
                 scheduleResponse +
