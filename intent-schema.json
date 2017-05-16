@@ -79,7 +79,9 @@
     {
       "name": "PAC",
       "samples": [
-        "are there any open pack classes that occur at {time} on {dayofweek} for {term} {year}"
+        "are there any open pack classes that occur at {time} on {dayofweek} for {term} {year}",
+        "what pack class should I take for {term} {year} that occurs at {time} on {dayofweek} ",
+        "give me a pack class that occurs on {dayofweek} at {time} for {term} {year}"
       ],
       "slots": [
         {
