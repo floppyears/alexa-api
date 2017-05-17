@@ -58,7 +58,7 @@ class CoursesDAO extends ApiDAO {
                 lowerLimit == desiredTime) {
             isWithinTimeFrame = true
         }
-        println(isWithinTimeFrame.toString())
+
         isWithinTimeFrame
     }
 
