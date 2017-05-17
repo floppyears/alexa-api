@@ -165,10 +165,12 @@ class CoursesDAO extends ApiDAO {
         String scheduleResponse = getDayScheduleResponse(course) + " from " + timeSchedule
 
         // TODO: handle class names that contain roman numerals
-        String response = "Does ${course["attributes"]["courseTitle"]} sound like fun? " +
+        String response = "<speak>" +
+                "Does ${course["attributes"]["courseTitle"]} sound like fun? " +
                 availableSpacesResponse +
                 scheduleResponse +
-                "The CRN is <say-as interpret-as=\"digits\">${course["id"]}</say-as>."
+                "The CRN is <say-as interpret-as=\"digits\">${course["id"]}</say-as>." +
+                "</speak>"
 
         response
     }
