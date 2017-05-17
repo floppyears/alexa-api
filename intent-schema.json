@@ -81,7 +81,11 @@
       "samples": [
         "are there any open pack classes that occur at {time} on {dayofweek} for {term} {year}",
         "what pack class should I take for {term} {year} that occurs at {time} on {dayofweek} ",
-        "give me a pack class that occurs on {dayofweek} at {time} for {term} {year}"
+        "give me a pack class that occurs on {dayofweek} at {time} for {term} {year}",
+        "pack class for {term} {year} at {time} on {dayofweek} ",
+        "pack class at {time} on {dayofweek} for {term} {year} ",
+        "pack class on {dayofweek} at {time} for {term} {year}",
+        "pack class for {term} {year} on {dayofweek} at {time} "
       ],
       "slots": [
         {
