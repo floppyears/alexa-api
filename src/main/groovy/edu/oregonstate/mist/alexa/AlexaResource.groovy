@@ -9,6 +9,8 @@ import edu.oregonstate.mist.alexa.db.DirectoryDAO
 import edu.oregonstate.mist.alexa.db.LocationsDAO
 import edu.oregonstate.mist.alexa.db.TermsDAO
 import edu.oregonstate.mist.api.Resource
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import javax.annotation.security.PermitAll
 import javax.ws.rs.Consumes
@@ -22,6 +24,8 @@ import javax.ws.rs.core.MediaType
 @PermitAll
 @groovy.transform.TypeChecked
 class AlexaResource extends Resource {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AlexaResource.class)
+
     TermsDAO termsDAO
     DirectoryDAO directoryDAO
     LocationsDAO locationsDAO
@@ -46,6 +50,8 @@ class AlexaResource extends Resource {
         String responseSpeech = "I don't know what your intent was."
         String responseSpeechSsml
         String responseType = "PlainText"
+
+        LOGGER.info(alexaRequest.toString())
 
         switch (intent) {
             case "HelloWorld": responseSpeech = "Hello hackathon 2017!"
