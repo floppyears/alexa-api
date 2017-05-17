@@ -86,9 +86,7 @@ class CoursesDAO extends ApiDAO {
                                 bannerTimePattern)
                         LocalTime endTime = parseTime(it["endTime"].toString(),
                                 bannerTimePattern)
-                        if (withinTimeFrame(desiredTime, startTime, endTime)) {
-                            addClass = true
-                        }
+                        addClass = withinTimeFrame(desiredTime, startTime, endTime)
                     }
                 }
             }
@@ -196,7 +194,7 @@ class CoursesDAO extends ApiDAO {
         def possibleCourses = getPossibleClasses(jsonApiObject, desiredTime, dayOfWeek)
 
         if (possibleCourses.isEmpty()) {
-            return "No PAC classes fit into that schedule."
+            return "<speak>No PAC classes fit into that schedule.</speak>"
         }
 
         def randomCourse =  possibleCourses[new Random().nextInt(possibleCourses.size())]
