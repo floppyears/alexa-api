@@ -45,10 +45,17 @@ class AlexaResource extends Resource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     AlexaResponse bennySkill(def alexaRequest) {
-        LOGGER.info(alexaRequest.toString())
-        LOGGER.info(alexaRequest["request"]["intent"]["name"].toString())
-        String intent = alexaRequest["request"]["intent"]["name"].toString()
-        def slots = alexaRequest["request"]["intent"]["slots"]
+        //TODO: Handle LaunchRequest and SessionEndedRequest
+        if (alexaRequest["request"]["type"].toString() == "IntentRequest") {
+            return intentResponse(alexaRequest)
+        }
+    }
+
+    private AlexaResponse intentResponse(def intentRequest) {
+        LOGGER.info(intentRequest.toString())
+
+        String intent = intentRequest["request"]["intent"]["name"].toString()
+        def slots = intentRequest["request"]["intent"]["slots"]
         String responseSpeech = "I don't know what your intent was."
         String responseSpeechSsml
         String responseType = "PlainText"
