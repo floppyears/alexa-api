@@ -1,5 +1,6 @@
 package edu.oregonstate.mist.alexa
 
+import edu.oregonstate.mist.alexa.db.CoursesDAO
 import edu.oregonstate.mist.alexa.db.DirectoryDAO
 import edu.oregonstate.mist.alexa.db.LocationsDAO
 import edu.oregonstate.mist.alexa.db.TermsDAO
@@ -29,8 +30,12 @@ class AlexaApplication extends Application<AlexaConfiguration> {
         TermsDAO termsDAO = new TermsDAO(httpClient, configuration.alexaConfiguration)
         DirectoryDAO directoryDAO = new DirectoryDAO(httpClient, configuration.alexaConfiguration)
         LocationsDAO locationsDAO = new LocationsDAO(httpClient, configuration.alexaConfiguration)
+        CoursesDAO coursesDAO = new CoursesDAO(httpClient, configuration.alexaConfiguration)
 
-        environment.jersey().register(new AlexaResource(termsDAO, directoryDAO, locationsDAO))
+        environment.jersey().register(new AlexaResource(termsDAO,
+                directoryDAO,
+                locationsDAO,
+                coursesDAO))
     }
 
     /**
